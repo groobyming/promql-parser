@@ -24,7 +24,7 @@
 //! Other query parameters like time range and step are included in [`parser::EvalStmt`].
 //!
 //! ``` rust
-//! use promql_parser::parser;
+//! use bk_promql_parser::parser;
 //!
 //! let promql = r#"http_requests_total{environment=~"staging|testing|development",method!="GET"} offset 5m"#;
 //!

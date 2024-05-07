@@ -658,8 +658,8 @@ impl From<String> for VectorSelector {
 /// Basic usage:
 ///
 /// ``` rust
-/// use promql_parser::label::Matchers;
-/// use promql_parser::parser::VectorSelector;
+/// use bk_promql_parser::label::Matchers;
+/// use bk_promql_parser::parser::VectorSelector;
 ///
 /// let vs = VectorSelector {
 ///     name: Some(String::from("foo")),
@@ -824,7 +824,7 @@ pub trait ExtensionExpr: std::fmt::Debug + Send + Sync {
 
     fn value_type(&self) -> ValueType;
 
-    fn children(&self) -> &[Expr];
+    fn children(&self) -> &mut [Expr];
 }
 
 impl PartialEq for Extension {
@@ -1111,8 +1111,8 @@ impl From<f64> for Expr {
 /// Basic usage:
 ///
 /// ``` rust
-/// use promql_parser::label::Matchers;
-/// use promql_parser::parser::{Expr, VectorSelector};
+/// use bk_promql_parser::label::Matchers;
+/// use bk_promql_parser::parser::{Expr, VectorSelector};
 ///
 /// let name = String::from("foo");
 /// let vs = VectorSelector::new(Some(name), Matchers::empty());

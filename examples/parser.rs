@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use promql_parser::parser;
+use bk_promql_parser::parser;
 
 fn main() {
     let promql = r#"
