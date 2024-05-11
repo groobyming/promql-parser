@@ -943,26 +943,6 @@ mod tests {
             ),
             ("foo{1}", "unexpected character inside braces: '1'"),
             (
-                "{}",
-                "vector selector must contain at least one non-empty matcher",
-            ),
-            (
-                r#"{x=""}"#,
-                "vector selector must contain at least one non-empty matcher",
-            ),
-            (
-                r#"{x=~".*"}"#,
-                "vector selector must contain at least one non-empty matcher",
-            ),
-            (
-                r#"{x!~".+"}"#,
-                "vector selector must contain at least one non-empty matcher",
-            ),
-            (
-                r#"{x!="a"}"#,
-                "vector selector must contain at least one non-empty matcher",
-            ),
-            (
                 r#"foo{__name__="bar"}"#,
                 "metric name must not be set twice: 'foo' or 'bar'",
             ),
@@ -2103,16 +2083,5 @@ mod tests {
             ),
         ];
         assert_cases(Case::new_fail_cases(fail_cases));
-
-        let fail_cases = vec![
-            // This is testing that we are not re-rendering the expression string for each error, which would timeout.
-            {
-                let input = "(".to_string() + &"-{}-1".repeat(10_000) + ")" + &"[1m:]".repeat(1000);
-                let expected =
-                    Err("vector selector must contain at least one non-empty matcher".into());
-                Case { input, expected }
-            },
-        ];
-        assert_cases(fail_cases);
     }
 }

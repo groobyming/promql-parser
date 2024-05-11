@@ -15,9 +15,9 @@
 [package]
 name = "bk-promql-parser"
 readme = "README.md"
-description = "Parse PromQL query into AST"
+description = "Parse PromQL query into AST(fork from promql-parser)"
 repository = "https://github.com/GreptimeTeam/promql-parser"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 authors = ["The GreptimeDB Project Developers"]
 keywords = ["prometheus", "promql", "parser"]

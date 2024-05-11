@@ -824,6 +824,7 @@ pub trait ExtensionExpr: std::fmt::Debug + Send + Sync {
 
     fn value_type(&self) -> ValueType;
 
+    #[allow(clippy::mut_from_ref)]
     fn children(&self) -> &mut [Expr];
 }
 
@@ -1415,11 +1416,6 @@ fn check_ast_for_vector_selector(ex: VectorSelector) -> Result<Expr, String> {
             )),
             None => Ok(Expr::VectorSelector(ex)),
         },
-        None if ex.matchers.is_empty_matchers() => {
-            // When name is None, a vector selector must contain at least one non-empty matcher
-            // to prevent implicit selection of all metrics (e.g. by a typo).
-            Err("vector selector must contain at least one non-empty matcher".into())
-        }
         _ => Ok(Expr::VectorSelector(ex)),
     }
 }
