@@ -44,6 +44,7 @@ mod tests {
     };
     use crate::util::duration;
     use std::time::Duration;
+    use crate::parser;
 
     struct Case {
         input: String,
@@ -112,6 +113,29 @@ mod tests {
             ),
         ];
         assert_cases(Case::new_expr_cases(cases));
+    }
+
+    #[test]
+    fn test_label_or() {
+        let promql =r#"a{on="1" or label2="2"}"#;
+        let expr = parser::parse(promql).unwrap();
+        println!("expr is {}", expr.to_string());
+
+        let promql =r#"a{label1="1", label2="2"}"#;
+        let expr = parser::parse(promql).unwrap();
+        println!("expr is {}", expr.to_string());
+
+        let promql =r#"a{label1="1" or label2="2", label3="3"}"#;
+        let expr = parser::parse(promql).unwrap();
+        println!("expr is {}", expr.to_string());
+
+        let promql =r#"a{label1="1", label2="2" or label3="3"}"#;
+        let expr = parser::parse(promql).unwrap();
+        println!("expr is {}", expr.to_string());
+
+        let promql =r#"a{label1="1", label2="2" or label3="3", label4="5"}"#;
+        let expr = parser::parse(promql).unwrap();
+        println!("expr is {}", expr.to_string());
     }
 
     #[test]
