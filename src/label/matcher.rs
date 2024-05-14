@@ -113,27 +113,24 @@ impl Matcher {
     }
 
     pub fn new_matcher(id: TokenId, name: String, value: String) -> Result<Matcher, String> {
-        let op = match id {
-            T_EQL => Ok(MatchOp::Equal),
-            T_NEQ => Ok(MatchOp::NotEqual),
-            T_EQL_REGEX => Ok(MatchOp::Re(Matcher::try_parse_re(&value)?)),
-            T_NEQ_REGEX => Ok(MatchOp::NotRe(Matcher::try_parse_re(&value)?)),
-            _ => Err(format!("invalid match op {}", token_display(id))),
-        };
-
+        let op = Self::find_matcher_op(id, &value)?;
         op.map(|op| Matcher::new(op, name.as_str(), value.as_str()))
     }
 
     pub fn new_matcher_or(id: TokenId, name: String, value: String) -> Result<Matcher, String> {
+        let op = Self::find_matcher_op(id, &value)?;
+        op.map(|op| Matcher::new_or(op, name.as_str(), value.as_str()))
+    }
+
+    fn find_matcher_op(id: TokenId, value: &str) -> Result<Result<MatchOp, String>, String> {
         let op = match id {
             T_EQL => Ok(MatchOp::Equal),
             T_NEQ => Ok(MatchOp::NotEqual),
-            T_EQL_REGEX => Ok(MatchOp::Re(Matcher::try_parse_re(&value)?)),
-            T_NEQ_REGEX => Ok(MatchOp::NotRe(Matcher::try_parse_re(&value)?)),
+            T_EQL_REGEX => Ok(MatchOp::Re(Matcher::try_parse_re(value)?)),
+            T_NEQ_REGEX => Ok(MatchOp::NotRe(Matcher::try_parse_re(value)?)),
             _ => Err(format!("invalid match op {}", token_display(id))),
         };
-
-        op.map(|op| Matcher::new_or(op, name.as_str(), value.as_str()))
+        Ok(op)
     }
 }
 
@@ -265,9 +262,9 @@ impl fmt::Display for Matchers {
                 .map(|matcher|
                     {
                        if matcher.is_or {
-                           format!(" or {}", matcher.to_string())
+                           format!(" or {}", matcher)
                        } else {
-                           format!(",{}", matcher.to_string())
+                           format!(",{}", matcher)
                        }
                     }
                 ).collect::<String>();
