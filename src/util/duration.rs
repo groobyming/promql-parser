@@ -60,7 +60,7 @@ const ALL_CAPS: [(&str, Duration); 7] = [
 ///
 /// ```
 /// use std::time::Duration;
-/// use promql_parser::util;
+/// use bk_promql_parser::util;
 ///
 /// assert_eq!(util::parse_duration("1h").unwrap(), Duration::from_secs(3600));
 /// assert_eq!(util::parse_duration("4d").unwrap(), Duration::from_secs(3600 * 24 * 4));
